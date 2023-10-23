@@ -48,7 +48,7 @@ class Product:
         print("Invalid stock level value inputted.") if self.__stock == None else None
     def setMonthly(self, monthly):
         #Accepts value only if it's an integer larger than 0.
-        self.__monthly = monthly if isinstance(monthly, (float, int)) and manufacture > 0 else None
+        self.__monthly = monthly if isinstance(monthly, (float, int)) and monthly > 0 else None
         print("Invalid monthly unit/s value inputted.") if self.__monthly == None else None
 
     
