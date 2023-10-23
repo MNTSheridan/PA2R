@@ -6,14 +6,14 @@ stock price, and monthly selfion quantity in order.
 '''
 class Product:
     def __init__(self, code, name, sale, manufacture, stock, monthly):
-        self.__code = code
-        self.__name = name
-        self.__sale = sale
-        self.__manufacture = manufacture
-        self.__stock = stock
-        self.__monthly = monthly
+        self.__code = code                  #int from 100-1000
+        self.__name = name                  #string
+        self.__sale = sale                  #num > 0
+        self.__manufacture = manufacture    #num > 0
+        self.__stock = stock                #stock > 0
+        self.__monthly = monthly            #int >= 0
 
-    #getters for attributes
+    #Getters for attributes.
     def getCode(self):
         return self.__code
     def getName(self):
@@ -27,19 +27,29 @@ class Product:
     def getMonthly(self):
         return self.__monthly
 
-    #setters for attributes
+    #Setters for attributes.
     def setCode(self, code):
-        self.__code = code
+        #Accepts value only if it's an integer from 100 to 1000.
+        self.__code = code if code.isdigit() and code in range(100, 1001) else None
+        print("Invalid product code value inputted.") if self.__code == None else None
     def setName(self, name):
         self.__name = name
     def setSale(self, sale):
-        self.__sale = sale
+        #Accepts value only if it's a positive number.
+        self.__sale = sale if isinstance(sale, (float, int)) and sale > 0 else None
+        print("Invalid sale price value inputted.") if self.__sale == None else None
     def setManufacture(self, manufacture):
-        self.__manufacture = manufacture
+        #Accepts value only if it's a positive number.
+        self.__manufacture = manufacture if isinstance(manufacture, (float, int)) and manufacture > 0 else None
+        print("Invalid manufacture cost value inputted.") if self.__manufacture == None else None
     def setStock(self, stock):
-        self.__stock = stock
+        #Accepts value only if it's an integer larger than 0.
+        self.__stock = stock if isinstance(stock, (float, int)) and stock > 0 else None
+        print("Invalid stock level value inputted.") if self.__stock == None else None
     def setMonthly(self, monthly):
-        self.__monthly = monthly
+        #Accepts value only if it's an integer larger than 0.
+        self.__monthly = monthly if isinstance(monthly, (float, int)) and manufacture > 0 else None
+        print("Invalid monthly unit/s value inputted.") if self.__monthly == None else None
 
     
 
