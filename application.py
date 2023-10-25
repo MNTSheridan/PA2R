@@ -1,3 +1,4 @@
+import random
 
 '''
 Class detailing object self and its information from
@@ -30,50 +31,87 @@ class Product:
     #Setters for attributes.
     def setCode(self, code):
         #Accepts value only if it's an integer from 100 to 1000.
-        self.__code = code if code.isdigit() and code in range(100, 1001) else None
+        self.__code = int(code) if code.isdigit() and int(code) in range(100, 1001) else None
         if self.__code == None:
-            new_code = input("Invalid product code value inputted, please enter an integer from 100 to 1000.")    
+            new_code = input("Invalid product code value inputted, please enter an integer from 100 to 1000.\n")    
             self.setCode(new_code)
 
     def setName(self, name):
         self.__name = name if isinstance(name, str) else None
         if self.__sale == None:
-            new_name = input("Invalid product value inputted, please enter an actual string.")
+            new_name = input("Invalid product value inputted, please enter an actual string.\n")
             self.setName(new_name)
         
     def setSale(self, sale):
         #Accepts value only if it's a positive number.
-        self.__sale = sale if isinstance(sale, (float, int)) and sale > 0 else None
-        if self.__sale == None:
-            new_sale = input("Invalid sale price value inputted, please enter a positive value.")
-            self.setSale(new_sale)
+        try:
+            if float(sale) > 0:
+                self.__sale = float(sale)
+            else:
+                print("Invalid manufacture cost value inputted, please enter a positive number.\n")
+        except ValueError:
+            print("Invalid manufacture cost value inputted, please enter a positive number.\n")
 
     def setManufacture(self, manufacture):
         #Accepts value only if it's a positive number.
-        self.__manufacture = manufacture if isinstance(manufacture, (float, int)) and manufacture > 0 else None
-        if self.__manufacture == None :
-            new_manufacture = input("Invalid manufacture cost value inputted, please enter a positive number.")
-            self.setManufacture(new_manufacture)
+        try:
+            if float(manufacture) > 0:
+                self.__manufacture = float(manufacture)
+            else:
+                print("Invalid manufacture cost value inputted, please enter a positive number.\n")
+        except ValueError:
+            print("Invalid manufacture cost value inputted, please enter a positive number.\n")
+
 
     def setStock(self, stock):
         #Accepts value only if it's an integer larger than 0.
-        self.__stock = stock if isinstance(stock, int) and stock > 0 else None
+        self.__stock = int(stock) if stock.isdigit() and int(stock) > 0 else None
         if self.__stock == None:
-            new_stock = input("Invalid stock level value inputted, please enter a positive integer.")
+            new_stock = input("Invalid stock level value inputted, please enter a positive integer.\n")
             self.setStock(new_stock)
 
     def setMonthly(self, monthly):
         #Accepts value only if it's an integer larger than 0.
-        self.__monthly = monthly if isinstance(monthly, int) and monthly > 0 else None
+        self.__monthly = int(monthly) if monthly.isdigit() and int(monthly) > 0 else None
         if self.__monthly == None:
-            new_monthly = input("Invalid monthly unit/s value inputted, please enter a positive integer.")
+            new_monthly = input("Invalid monthly unit/s value inputted, please enter a positive integer.\n")
             self.setMonthly(new_monthly)
 
+    def renew_information(self):
+        print("welcome to Programming Principles Sample Product Inventory.")
+        setters_list = [self.setCode, self.setName, self.setSale, self.setManufacture, self.setStock, self.setMonthly]
+        getters_list = [self.getCode, self.getName, self.getSale, self.getManufacture, self.getStock, self.getMonthly]
+        information = ["Code", "Name", "Sale Price", "Manufacture Cost", "Stock Level", "Estimated Monthly Units Manufactured"]
+        stock = self.getStock()
 
 
-    
+        #Input for attributes.
+        for current_info in range(6):
+            information_input = input(f"Please enter the Product's {information[current_info]}: ")
+            setters_list[current_info](information_input)
+        print("******Programming Principles Sample Stock Statement******")
+        #Summary of attributes.
+        for current_info in range(6):
+            print(f"Product {information[current_info]}: {getters_list[current_info]}")
+        for month in range(12):
+            monthly_sale = random.randint(range(self.getMonthly()-10, self.getMonthly()+10))
+            stock =+ monthly_sale - self.getManufacture
+            #(Total Units Sold * Sale Price) - (Total Units Manufactured * Manufacture Cost).
+            performance_message = f"""
+            Month: {monthly_sale}\n
+            \t  Manufactured: {self.getManufacture}
+            \t  Sold: {monthly_sale}
+            \t  Stock: {stock - monthly_sale}
+            """
+            print(performance_message)
+        print(f"Net Profit:")
+            
+            
+        
 
-product_one = Product(1,"Coca Cola",0.50,0.20,100,12000000)
+
+#filler information
+product_one = Product(100,"Coke",12.00,10.00,1,1)
 #predicted stock statement hypothetical implementation
-PSS = product_one
-print("hello world", product_one.getMonthly())
+
+product_one.renew_information()
