@@ -39,7 +39,7 @@ class Product:
 
     def setName(self, name):
         self.__name = name if isinstance(name, str) else None
-        if self.__sale == None:
+        if self.__name == None:
             new_name = input("Invalid product value inputted, please enter an actual string.\n")
             self.setName(new_name)
         
@@ -118,25 +118,29 @@ class Product:
         Stock Quantity: {self.getStock()}\n 
         Monthly quantity {self.getQuantity()}\n 
         """
+        print(summary_message)
         stock = self.getStock()
         total_units_sold = 0
 
         for month in range(12):
             monthly_units_sold = self.getQuantity() + random.randint(-10, 10)
+            #safety net so that items can not be sold more than what is in supply
+            total_units_sold += monthly_units_sold if stock >= total_units_sold and stock > 0 else stock
+
+            stock += self.getQuantity() - monthly_units_sold
             total_units_sold += monthly_units_sold
 
-            stock += self.getManufacture() - monthly_units_sold
             #(Total Units Sold * Sale Price) - (Total Units Manufactured * Manufacture Cost).
             performance_message = f"""
-            Month: {monthly_units_sold}\n
-            \t  Manufactured: {self.getManufacture()}
+            Month: {month+1}\n
+            \t  Manufactured: {self.getQuantity()}
             \t  Sold: {monthly_units_sold}
-            \t  Stock: {stock - monthly_units_sold}
+            \t  Stock: {stock}
             """
             print(performance_message)
         
         net_profit = (total_units_sold + self.getSale()) - (self.getQuantity() * self.getManufacture())
-        print(f"Net Profit:")
+        print(f"Net Profit: ${net_profit}")
                 
             
         
