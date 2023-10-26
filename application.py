@@ -8,12 +8,12 @@ stock price, and monthly selfion quantity in order.
 class Product:
     def __init__(self):
         #code: int, name: str, sale: float, manufacture: float, stock: int, monthly: int
-        self.__code = True                  #int from 100-1000
-        self.__name = True                  #string
-        self.__sale = True                  #num > 0
-        self.__manufacture = True           #num > 0
-        self.__stock = True                #stock > 0
-        self.__monthly = True            #int >= 0
+        self.__code = None                  #int from 100-1000
+        self.__name = None                  #string
+        self.__sale = None                  #num > 0
+        self.__manufacture = None           #num > 0
+        self.__stock = None                #stock > 0
+        self.__quantity = None            #int >= 0
 
     #Getters for attributes.
     def getCode(self):
@@ -26,12 +26,11 @@ class Product:
         return self.__manufacture
     def getStock(self):
         return self.__stock
-    def getMonthly(self):
-        return self.__monthly
+    def getQuantity(self):
+        return self.__quantity
 
     #Setters for attributes.
     def setCode(self, code):
-        print("set actually works?")
         #Accepts value only if it's an integer from 100 to 1000.
         self.__code = int(code)if code.isdigit() and int(code) in range(100, 1001) else None
         if self.__code == None:
@@ -39,14 +38,12 @@ class Product:
             self.setCode(new_code)
 
     def setName(self, name):
-        print("set actually works?")
         self.__name = name if isinstance(name, str) else None
         if self.__sale == None:
             new_name = input("Invalid product value inputted, please enter an actual string.\n")
             self.setName(new_name)
         
     def setSale(self, sale):
-        print("set actually works?")
         #Accepts value only if it's a positive number.
         try:
             if float(sale) > 0:
@@ -62,7 +59,6 @@ class Product:
 
 
     def setManufacture(self, manufacture):
-        print("set actually works?")
         #Accepts value only if it's a positive number.
         try:
             if float(manufacture) > 0:
@@ -77,27 +73,21 @@ class Product:
 
 
     def setStock(self, stock):
-        print("set actually works?")
         #Accepts value only if it's an integer larger than 0.
         self.__stock = int(stock) if stock.isdigit() and int(stock) > 0 else None
         if self.__stock == None:
             new_stock = input("Invalid stock level value inputted, please enter a positive integer.\n")
             self.setStock(new_stock)
 
-    def setMonthly(self, monthly):
-        print("set actually works?")
+    def setQuantity(self, quantity):
         #Accepts value only if it's an integer larger than 0.
-        self.__monthly = int(monthly) if monthly.isdigit() and int(monthly) > 0 else None
-        if self.__monthly == None:
-            new_monthly = input("Invalid monthly unit/s value inputted, please enter a positive integer.\n")
-            self.setMonthly(new_monthly)
+        self.__quantity = int(quantity) if quantity.isdigit() and int(quantity) > 0 else None
+        if self.__quantity == None:
+            new_quantity = input("Invalid quantity unit/s value inputted, please enter a positive integer.\n")
+            self.setQuantity(new_quantity)
 
     def renew_information(self):
         print("welcome to Programming Principles Sample Product Inventory.")
-        setters_list = [self.setCode, self.setName, self.setSale, self.setManufacture, self.setStock, self.setMonthly]
-        getters_list = [self.getCode(), self.getName(), self.getSale(), self.getManufacture(), self.getStock(), self.getMonthly()]
-        stock = self.getStock()
-
 
         #Input for attributes.
         code_input = input("Please enter the Product's code: ")
@@ -115,8 +105,8 @@ class Product:
         stock_input = input("Please enter the Product's stock amount: ")
         self.setStock(stock_input)
 
-        monthly_input = input("Please enter the Product's monthly manufacturing amount: ")
-        self.setMonthly(monthly_input)
+        quantity_input = input("Please enter the Product's monthly quantity amount: ")
+        self.setQuantity(quantity_input)
         summary_message = f"""
 
         ******Programming Principles Sample Stock Statement******
@@ -126,22 +116,26 @@ class Product:
         Sale Price: {self.getSale()}\n 
         Manufacture Cost: {self.getManufacture()}\n 
         Stock Quantity: {self.getStock()}\n 
-        Monthly Production {self.getMonthly()}\n 
+        Monthly quantity {self.getQuantity()}\n 
         """
-
-
+        stock = self.getStock()
+        total_units_sold = 0
 
         for month in range(12):
-            monthly_sale = self.getMonthly() + random.randint(-10, 10)
-            stock =+ monthly_sale - self.getManufacture()
+            monthly_units_sold = self.getQuantity() + random.randint(-10, 10)
+            total_units_sold += monthly_units_sold
+
+            stock += self.getManufacture() - monthly_units_sold
             #(Total Units Sold * Sale Price) - (Total Units Manufactured * Manufacture Cost).
             performance_message = f"""
-            Month: {monthly_sale}\n
-            \t  Manufactured: {self.getManufacture}
-            \t  Sold: {monthly_sale}
-            \t  Stock: {stock - monthly_sale}
+            Month: {monthly_units_sold}\n
+            \t  Manufactured: {self.getManufacture()}
+            \t  Sold: {monthly_units_sold}
+            \t  Stock: {stock - monthly_units_sold}
             """
             print(performance_message)
+        
+        net_profit = (total_units_sold + self.getSale()) - (self.getQuantity() * self.getManufacture())
         print(f"Net Profit:")
                 
             
