@@ -86,7 +86,7 @@ class Product:
             new_quantity = input("Invalid quantity unit/s value inputted, please enter a positive integer.\n")
             self.setQuantity(new_quantity)
 
-    def renew_information(self):
+    def register_information(self):
         print("welcome to Programming Principles Sample Product Inventory.")
 
         #Input for attributes.
@@ -142,12 +142,9 @@ class Product:
         net_profit = (total_units_sold + self.getSale()) - (self.getQuantity() * self.getManufacture())
         print(f"Net Profit: ${net_profit}")
                 
-            
-        
-
 
 #filler information
 product_one = Product()
 #predicted stock statement hypothetical implementation
 
-product_one.renew_information()
+product_one.register_information()
